@@ -1,0 +1,41 @@
+import { hash } from 'bcrypt';
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+
+@Entity({ name: 'users' })
+export class User {
+
+    @PrimaryGeneratedColumn()
+    id: number
+
+    @Column({ unique: true })
+    user: string
+
+    @Column()
+    name: string
+
+    @Column()
+    surname: string
+
+    @Column({ unique: true })
+    email: string
+
+    @Column()
+    department: string
+
+    @Column()
+    password: string
+
+    @Column({ default: true })
+    status: boolean
+
+    @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+    created_at: Date
+
+    @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+    updated_at: Date
+
+    @BeforeInsert()
+    async hashPassword() {
+        this.password = await hash(this.password, Number(process.env.HASH_SALT))
+    }
+}

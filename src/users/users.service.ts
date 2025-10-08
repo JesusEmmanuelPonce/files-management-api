@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { User } from './entities/user.entity';
@@ -13,7 +13,13 @@ export class UsersService {
     @InjectRepository(User) private usersRepository: Repository<User>
   ) {}
 
-  create(user: CreateUserDto) {
+  async create(user: CreateUserDto) {
+    
+    const { email } = user;
+
+    const emailExist = await this.usersRepository.findOneBy({ email });
+
+    if (emailExist) throw new HttpException('El correo ya existe', HttpStatus.CONFLICT);
 
     const newUser = this.usersRepository.create(user)
 

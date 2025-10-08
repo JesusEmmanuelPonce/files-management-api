@@ -1,8 +1,6 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator"
+import { IsBoolean, IsEmail, IsNotEmpty, IsString } from "class-validator"
 
 export class CreateUserDto {
-    id: number
-
     @IsNotEmpty()
     @IsString()
     user: string
@@ -28,9 +26,6 @@ export class CreateUserDto {
     @IsString()
     password: string
 
+    @IsBoolean()
     status: boolean
-
-    created_at: Date
-
-    updated_at: Date
 }

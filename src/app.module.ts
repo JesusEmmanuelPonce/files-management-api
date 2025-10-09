@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { DepartmentsModule } from './departments/departments.module';
 
 @Module({
   imports: [
@@ -27,8 +28,9 @@ import { UsersModule } from './users/users.module';
         synchronize: true,
       }),
     }),
-    UsersModule,
     AuthModule,
+    UsersModule,
+    DepartmentsModule,
   ],
 })
 export class AppModule {}
